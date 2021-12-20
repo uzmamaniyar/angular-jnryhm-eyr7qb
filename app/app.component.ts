@@ -1,4 +1,5 @@
-import { Component, ViewEncapsulation } from '@angular/core';
+import { Component, ElementRef, Input, ViewEncapsulation } from '@angular/core';
+import { Renderer2 } from '@angular/core';
 
 @Component({
   selector: 'my-app',
@@ -79,7 +80,7 @@ import { Component, ViewEncapsulation } from '@angular/core';
               renderAs="canvas"
                 [pannable]="{ lock: 'y' }"
                 [zoomable]="{ mousewheel: { lock: 'y' }, selection: { lock: 'y' } }"
-                [categoryAxis]="categoryAxis">
+                >
 
                 <kendo-chart-value-axis>
                 <kendo-chart-value-axis-item
@@ -91,111 +92,59 @@ import { Component, ViewEncapsulation } from '@angular/core';
                 </kendo-chart-pane>
             </kendo-chart-panes>
             
-            <kendo-chart-title
+            <kendo-chart-title 
                     text="Gross domestic product growth /GDP annual %/"
             >
             </kendo-chart-title>
             
-            <kendo-chart-category-axis>
-                      <kendo-chart-category-axis-item [maxDivisions]="5">
-                      </kendo-chart-category-axis-item>
-            </kendo-chart-category-axis>       
-            
+          
+            <div class="chart-legend">
+            <span>
+              <span class="legend-marker" ng-style="{background: x.color}">
+              </span>
+              <span text="legend"></span>
+            </span>
+          </div>
+
             <kendo-chart-axis-defaults [majorGridLines]="{ visible : false}">
             </kendo-chart-axis-defaults>
             
             <kendo-chart-tooltip format="{0}%"></kendo-chart-tooltip>
-            
-            <kendo-chart-series>
-              <kendo-chart-series-item
-              *ngFor="let item of series"
-              type="line"
-              style="normal"
-              [data]="item.data"
-              [name]="item.name"
-              [color]="item.markerBackground"
-              [markers]="{ background: item.markerBackground }"
-              >  
-              </kendo-chart-series-item>
-            </kendo-chart-series>
-            
-            <kendo-chart-legend position="bottom" orientation="horizontal">
-            </kendo-chart-legend>
-            
-            <kendo-chart-x-axis>
-                <kendo-chart-x-axis-item>
-                  <kendo-chart-x-axis-item-labels [position]="start">
-                  </kendo-chart-x-axis-item-labels>
-                </kendo-chart-x-axis-item>
-            </kendo-chart-x-axis>
+          
+            <kendo-chart-category-axis>
+        <kendo-chart-category-axis-item
+          [categories]="categories"
+          [title]="{ text: 'Months' }"
+          [maxDivisions]="5"
+        >
+        
+        <kendo-chart-category-axis-item-labels [step]="10">
+        </kendo-chart-category-axis-item-labels>
+        </kendo-chart-category-axis-item>
+      </kendo-chart-category-axis>
 
-            <kendo-chart-y-axis>
-                <kendo-chart-y-axis-item>
-                  <kendo-chart-y-axis-item-labels [position]="start">
-                  </kendo-chart-y-axis-item-labels>
-                </kendo-chart-y-axis-item>
-            </kendo-chart-y-axis>
+      <kendo-chart-legend position="top" orientation="horizontal">
+      </kendo-chart-legend>
+      
+     
+      <kendo-chart-series>
+      <kendo-chart-series-item
+      *ngFor="let item of series"
+      type="line"
+      style="normal"
+      [data]="item.data"
+      [name]="item.name"
+      [color]="item.markerBackground"
+      [markers]="{ background: item.markerBackground }"
+      >  
+      </kendo-chart-series-item>
+    </kendo-chart-series>
+      
           </kendo-chart>
         </kendo-card-body>
       </kendo-card>
 
             <br>
-            <br>
-            <kendo-card width="500px">
-            <kendo-card-body>
-            
-       
-    <kendo-chart [transitions]="false"
-    renderAs="canvas"
-      [pannable]="{ lock: 'y' }"
-      [zoomable]="{ mousewheel: { lock: 'y' }, selection: { lock: 'y' } }"
-      [categoryAxis]="categoryAxis">
-
-      <kendo-chart-value-axis>
-      <kendo-chart-value-axis-item
-        [min]="0"  pane="pane" >
-      </kendo-chart-value-axis-item>
-  </kendo-chart-value-axis>
-  <kendo-chart-panes>
-      <kendo-chart-pane name="pane" clip="false">
-      </kendo-chart-pane>
-  </kendo-chart-panes>
-  <kendo-chart-category-axis>
-            <kendo-chart-category-axis-item [maxDivisions]="5">
-            </kendo-chart-category-axis-item>
-    </kendo-chart-category-axis>       
-  <kendo-chart-axis-defaults [majorGridLines]="{ visible : false}">
-  </kendo-chart-axis-defaults>
-    <kendo-chart-tooltip format="{0}%"></kendo-chart-tooltip>
-    <kendo-chart-series>
-    <kendo-chart-series-item
-    *ngFor="let item of series"
-    type="line"
-    style="smooth"
-    [data]="item.data"
-    [name]="item.name"
-    [markers]="{visible:false}"
-  >
-    </kendo-chart-series-item>
-    </kendo-chart-series>
-    <kendo-chart-legend position="bottom" orientation="horizontal">
-    </kendo-chart-legend>
-    <kendo-chart-x-axis>
-      <kendo-chart-x-axis-item>
-        <kendo-chart-x-axis-item-labels [position]="start">
-        </kendo-chart-x-axis-item-labels>
-      </kendo-chart-x-axis-item>
-    </kendo-chart-x-axis>
-
-    <kendo-chart-y-axis>
-      <kendo-chart-y-axis-item>
-        <kendo-chart-y-axis-item-labels [position]="start">
-        </kendo-chart-y-axis-item-labels>
-      </kendo-chart-y-axis-item>
-    </kendo-chart-y-axis>
-  </kendo-chart>
-        </kendo-card-body>
-        </kendo-card>
     `,
   encapsulation: ViewEncapsulation.None,
   styles: [
@@ -236,14 +185,10 @@ import { Component, ViewEncapsulation } from '@angular/core';
           
             .k-chart {
                 overflow: auto;
-                width: 450px;
-                height:320px;
+             
               }
           
-            .k-chart-surface {
-                width: 700px;
-                height:300px;
-              }
+            
             ::-webkit-scrollbar {
                 width: 4px;
             
@@ -323,9 +268,108 @@ export class AppComponent {
     //   ],
     // },
   ];
-  public categories: number[] = [
-    2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2002, 2003,
-    2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011,
+
+  public categories: any[] = [
+    'T1',
+    'T2',
+    'T3',
+    'T4',
+    'T5',
+    'T6',
+    'T7',
+    'T8',
+    'T9',
+    'T10',
+    'T11',
+    'T12',
+    'T13',
+    'T14',
+    'T15',
+    'T16',
+    'T17',
+    'T18',
+    'T19',
+    'T20',
+    'T21',
+    'T22',
+    'T23',
+    'T24',
+    'T25',
+    'T26',
+    'T27',
+    'T28',
+    'T29',
+    'T30',
+    'T31',
+    'T32',
+    'T33',
+    'T34',
+    'T35',
+    'T36',
+    'T37',
+    'T38',
+    'T39',
+    'T40',
+    'T41',
+    'T42',
+    'T43',
+    'T44',
+    'T45',
+    'T46',
+    'T47',
+    'T48',
+    'T49',
+    'T50',
+    'T51',
+    'T52',
+    'T53',
+    'T54',
+    'T55',
+    'T56',
+    'T57',
+    'T58',
+    'T59',
+    'T60',
+    'T61',
+    'T62',
+    'T63',
+    'T64',
+    'T65',
+    'T66',
+    'T67',
+    'T68',
+    'T69',
+    'T70',
+    'T71',
+    'T72',
+    'T73',
+    'T74',
+    'T75',
+    'T76',
+    'T77',
+    'T78',
+    'T79',
+    'T80',
+    'T81',
+    'T82',
+    'T83',
+    'T84',
+    'T85',
+    'T86',
+    'T87',
+    'T88',
+    'T89',
+    'T90',
+    'T91',
+    'T92',
+    'T93',
+    'T94',
+    'T95',
+    'T96',
+    'T97',
+    'T98',
+    'T99',
+    'T100',
   ];
   // tslint:disable-next-line:max-line-length
   public thumbnailSrc =
@@ -355,6 +399,32 @@ export class AppComponent {
   public heartIcon(): string {
     return this.liked ? 'k-icon k-i-heart' : 'k-icon k-i-heart-outline';
   }
+
+  @Input() height: number;
+  chartWidth: number = 400; //default value
+
+  constructor(public renderer: Renderer2, private elRef: ElementRef) {}
+
+  ngAfterViewInit() {
+    if (this.series) {
+      console.log(this.series[0]);
+
+      if (
+        this.series[0].data.length < 100 ||
+        this.series[1].data.length < 100
+      ) {
+        return;
+      }
+      //if(this.series[0].data.count)
+      this.chartWidth = this.series[0].data.length * 6.5;
+    }
+    this.renderer.setStyle(
+      this.elRef.nativeElement.querySelector('.k-chart-surface'),
+      'width',
+      this.chartWidth + 'px'
+    );
+  }
+
   // public chips = [
   //     {
   //         label: "Success",
