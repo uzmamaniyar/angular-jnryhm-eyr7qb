@@ -21,9 +21,9 @@ const { Point, Rect, Size } = geometry;
                 <div class="k-hstack">
                     <h4>CAPEX</h4>
                 </div>
-                <div >
-                    <h6 style="text-align: center;"> {{chartTitle}}</h6>
-                </div>
+                <div class=container>
+                    <h6 class="ChartTitle"> {{chartTitle}}</h6>
+                
 
               
               <kendo-chart [transitions]="false"
@@ -33,10 +33,7 @@ const { Point, Rect, Size } = geometry;
                 
                 >
 
-                <kendo-chart-value-axis>
-                <kendo-chart-value-axis-item [min]="0"  pane="pane" >
-                </kendo-chart-value-axis-item>
-            </kendo-chart-value-axis>
+               
             <kendo-chart-panes>
                 <kendo-chart-pane name="pane" clip="false">
                 </kendo-chart-pane>
@@ -67,8 +64,7 @@ const { Point, Rect, Size } = geometry;
           <kendo-chart-legend-item >
           </kendo-chart-legend-item>
           </kendo-chart-legend>
-          
-          
+         
             <kendo-chart-series>
             <kendo-chart-series-item
             *ngFor="let item of series"
@@ -81,18 +77,35 @@ const { Point, Rect, Size } = geometry;
             >  
             </kendo-chart-series-item>
           </kendo-chart-series>
-            
+          <kendo-chart-value-axis>
+        <kendo-chart-value-axis-item
+          [title]="{ text: '£m' }"
+        >
+          <!--                       ^^^^^     ^^^^^
+                     Note the binding is required,
+                     otherwise the property will be
+                     bound to a string.
+                -->
+        </kendo-chart-value-axis-item>
+      </kendo-chart-value-axis>
+         
+      
+      
         </kendo-chart>
-      <div >
-              <p style="text-align: center; margin:5px;"> Timesteps </p>
-      </div>
-      <div class="chart-legend">
-      <span  *ngFor="let x of series" class="legend-item">
-        <span class="legend-marker" [style.background-color]="x.markerBackground">
+        <div >
+        <!-- 
+        <p style="text-align: center; margin:5px;"> Timesteps </p>
+        -->
+        </div>
+        <div class="chart-legend">
+        <span  *ngFor="let x of series" class="legend-item">
+          <span class="legend-marker" [style.background-color]="x.markerBackground">
+          </span>
+          <span>{{x.name}}</span>
         </span>
-        <span>{{x.name}}</span>
-      </span>
-    </div>
+        </div>
+        </div>
+    
 
       </kendo-card-body>
     </kendo-card>
@@ -138,10 +151,10 @@ const { Point, Rect, Size } = geometry;
               }            
           
             .k-chart {
-                overflow: auto;
+               
              
               }
-          
+
             
             ::-webkit-scrollbar {
                 width: 4px;
@@ -188,61 +201,28 @@ const { Point, Rect, Size } = geometry;
               margin-right: 3px;
               
             }
+
+            .container
+            {
+              white-space: nowrap;
+              height:100%;
+              overflow-x:auto;
+              overflow-y:hidden;
+              
+            }
+
+            .ChartTitle
+            {
+              text-align: center;
+              
+            }
         `,
   ],
 })
 export class AppComponent {
-  public chartTitle = 'Gross domestic product growth /GDP annual';
+  public chartTitle =
+    'Gross domestic product growth /GDP annual Gross domestic product growth /GDP annual Gross domestic product growth /GDP annual Grossdomestic product growth /GDP annual product growth /GDP annual Gross ';
   public legend: Element;
-  public series: any[] = [
-    {
-      name: 'Need',
-      data: [
-        3.907, 7.943, 7.848, 9.284, 9.263, 9.801, 3.89, 8.238, 9.552, 6.855,
-        3.907, 7.943, 7.848, 9.284, 9.263, 9.801, 3.89, 8.238, 9.552, 6.855,
-        3.907, 7.943, 7.848, 9.284, 9.263, 9.801, 3.89, 8.238, 9.552, 6.855,
-        3.907, 7.943, 7.848, 9.284, 9.263, 9.801, 3.89, 8.238, 9.552, 6.855,
-        3.907, 7.943, 7.848, 9.284, 9.263, 9.801, 3.89, 8.238, 9.552, 6.855,
-        3.907, 7.943, 7.848, 9.284, 9.263, 9.801, 3.89, 8.238, 9.552, 6.855,
-        3.907, 7.943, 7.848, 9.284, 9.263, 9.801, 3.89, 8.238, 9.552, 6.855,
-        3.907, 7.943, 7.848, 9.284, 9.263, 9.801, 3.89, 8.238, 9.552, 6.855,
-        3.907, 7.943, 7.848, 9.284, 9.263, 9.801, 3.89, 8.238, 9.552, 6.855,
-        3.907, 7.943, 7.848, 9.284, 9.263, 9.801, 3.89, 8.238, 9.552, 6.855,
-      ],
-      markerBackground: '#D8A7D9',
-    },
-    {
-      name: 'Solution',
-      data: [
-        4.6666666666666666643, 7.295, 7.175, 6.376, 8.153, 8.535, 5.247, 7.832,
-        4.3, 4.3, 4.6666666666666666643, 7.295, 7.175, 6.376, 8.153, 8.535,
-        5.247, 7.832, 4.3, 4.3, 4.6666666666666666643, 7.295, 7.175, 6.376,
-        8.153, 8.535, 5.247, 7.832, 4.3, 4.3, 4.6666666666666666643, 7.295,
-        7.175, 6.376, 8.153, 8.535, 5.247, 7.832, 4.3, 4.3,
-        4.6666666666666666643, 7.295, 7.175, 6.376, 8.153, 8.535, 5.247, 7.832,
-        4.3, 4.3, 4.6666666666666666643, 7.295, 7.175, 6.376, 8.153, 8.535,
-        5.247, 7.832, 4.3, 4.3, 4.6666666666666666643, 7.295, 7.175, 6.376,
-        8.153, 8.535, 5.247, 7.832, 4.3, 4.3, 4.6666666666666666643, 7.295,
-        7.175, 6.376, 8.153, 8.535, 5.247, 7.832, 4.3, 4.3,
-        4.6666666666666666643, 7.295, 7.175, 6.376, 8.153, 8.535, 5.247, 7.832,
-        4.3, 4.3, 4.6666666666666666643, 7.295, 7.175, 6.376, 8.153, 8.535,
-        5.247, 7.832, 4.3, 4.3,
-      ],
-      markerBackground: '#B2CFE8',
-    },
-    // {
-    //   name: "Germany",
-    //   data: [
-    //     0.01, -0.375, 1.161, 0.684, 3.7, 3.269, 1.083, -5.127, 3.69, 2.995,
-    //   ],
-    // },
-    // {
-    //   name: "World",
-    //   data: [
-    //     1.988, 2.733, 3.994, 3.464, 4.001, 3.939, 1.333, -2.245, 4.339, 2.727,
-    //   ],
-    // },
-  ];
 
   public categories: any[] = [
     'T1',
@@ -346,6 +326,57 @@ export class AppComponent {
     'T99',
     'T100',
   ];
+
+  public series: any[] = [
+    {
+      name: 'Need',
+      data: [
+        3.907, 7.943, 7.848, 9.284, 9.263, 9.801, 3.89, 8.238, 9.552, 6.855,
+        3.907, 7.943, 7.848, 9.284, 9.263, 9.801, 3.89, 8.238, 9.552, 6.855,
+        3.907, 7.943, 7.848, 9.284, 9.263, 9.801, 3.89, 8.238, 9.552, 6.855,
+        3.907, 7.943, 7.848, 9.284, 9.263, 9.801, 3.89, 8.238, 9.552, 6.855,
+        3.907, 7.943, 7.848, 9.284, 9.263, 9.801, 3.89, 8.238, 9.552, 6.855,
+        3.907, 7.943, 7.848, 9.284, 9.263, 9.801, 3.89, 8.238, 9.552, 6.855,
+        3.907, 7.943, 7.848, 9.284, 9.263, 9.801, 3.89, 8.238, 9.552, 6.855,
+        3.907, 7.943, 7.848, 9.284, 9.263, 9.801, 3.89, 8.238, 9.552, 6.855,
+        3.907, 7.943, 7.848, 9.284, 9.263, 9.801, 3.89, 8.238, 9.552, 6.855,
+        3.907, 7.943, 7.848, 9.284, 9.263, 9.801, 3.89, 8.238, 9.552, 6.855,
+      ],
+      markerBackground: '#D8A7D9',
+    },
+    {
+      name: 'Solution',
+      data: [
+        4.6666666666666666643, 7.295, 7.175, 6.376, 8.153, 8.535, 5.247, 7.832,
+        4.3, 4.3, 4.6666666666666666643, 7.295, 7.175, 6.376, 8.153, 8.535,
+        5.247, 7.832, 4.3, 4.3, 4.6666666666666666643, 7.295, 7.175, 6.376,
+        8.153, 8.535, 5.247, 7.832, 4.3, 4.3, 4.6666666666666666643, 7.295,
+        7.175, 6.376, 8.153, 8.535, 5.247, 7.832, 4.3, 4.3,
+        4.6666666666666666643, 7.295, 7.175, 6.376, 8.153, 8.535, 5.247, 7.832,
+        4.3, 4.3, 4.6666666666666666643, 7.295, 7.175, 6.376, 8.153, 8.535,
+        5.247, 7.832, 4.3, 4.3, 4.6666666666666666643, 7.295, 7.175, 6.376,
+        8.153, 8.535, 5.247, 7.832, 4.3, 4.3, 4.6666666666666666643, 7.295,
+        7.175, 6.376, 8.153, 8.535, 5.247, 7.832, 4.3, 4.3,
+        4.6666666666666666643, 7.295, 7.175, 6.376, 8.153, 8.535, 5.247, 7.832,
+        4.3, 4.3, 4.6666666666666666643, 7.295, 7.175, 6.376, 8.153, 8.535,
+        5.247, 7.832, 4.3, 4.3,
+      ],
+      markerBackground: '#B2CFE8',
+    },
+    // {
+    //   name: "Germany",
+    //   data: [
+    //     0.01, -0.375, 1.161, 0.684, 3.7, 3.269, 1.083, -5.127, 3.69, 2.995,
+    //   ],
+    // },
+    // {
+    //   name: "World",
+    //   data: [
+    //     1.988, 2.733, 3.994, 3.464, 4.001, 3.939, 1.333, -2.245, 4.339, 2.727,
+    //   ],
+    // },
+  ];
+
   // tslint:disable-next-line:max-line-length
   public thumbnailSrc =
     'https://www.telerik.com/kendo-angular-ui-develop/components/layout/card/assets/rila.jpg';
