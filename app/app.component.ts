@@ -15,73 +15,7 @@ const { Point, Rect, Size } = geometry;
 @Component({
   selector: 'my-app',
   template: `
-        <kendo-card width="360px">
-            <kendo-card-body>
-            <div class="contact">
-                <div class="k-hstack">
-                    <kendo-avatar shape="circle" ><i class="fas fa-puzzle-piece"></i> </kendo-avatar>
-                    <div class="mate-info">
-                        <h4>Clean Water hvbhfvsdhf jhfvh... </h4>
-                    </div>
-                </div>
-            </div>
-            <div class="k-hstack"></div>            
-                <p>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed egestas sollicitudin risus eget semper. Donec tincidunt at nulla nec luctus. Proin eget odio eu dolor pretium pretium eu vitae nulla. Proin eget turpis...
-                </p>
-            </kendo-card-body>
-            
-            <kendo-card-actions orientation="horizontal" layout="stretched">
-                <button class="k-button k-flat" (click)="toggleLike()">
-                    <i class="fas fa-info-circle"></i>
-                </button>            
-                <button class="k-button k-flat" (click)="toggleLike()">
-                    <i class="fas fa-book"></i>
-                </button>
-                <button class="k-button k-flat" (click)="toggleLike()">
-                    <i class="fas fa-briefcase"></i>                    
-                </button>
-                <button class="k-button k-flat" (click)="toggleLike()">
-                    <i class="fas fa-microscope"></i>                    
-                </button>                             
-                <button class="k-button k-flat" (click)="toggleLike()">
-                    <i class="fas fa-globe-europe"></i>
-                </button>   
-                <button class="k-button k-flat" (click)="toggleLike()">
-                <i class="far fa-circle"></i>
-                </button>   
-                <button class="k-button k-flat" (click)="toggleLike()">
-                <i class="far fa-circle"></i>
-                </button>   
-                <button class="k-button k-flat" (click)="toggleLike()">
-                <i class="far fa-circle"></i>
-                </button>   
-                <button class="k-button k-flat" (click)="toggleLike()">
-                <i class="far fa-circle"></i>
-                </button>   
-                <button class="k-button k-flat" (click)="toggleLike()">
-                <i class="far fa-circle"></i>
-                </button>   
-                <button class="k-button k-flat" (click)="toggleLike()">
-                <i class="far fa-circle"></i>
-                </button>   
-
-                <button class="k-button k-flat" (click)="toggleLike()">
-                    <i class="fas fa-cog"></i>
-                </button>                      
-            </kendo-card-actions>
-            <kendo-card-footer class="k-hstack">
-                <span>
-                    <kendo-chip type="none">
-                    Building
-                    </kendo-chip>                  
-                </span>
-                <span>Last modified March 4, 2020</span>
-            </kendo-card-footer>
-        </kendo-card>
-        <br />
-     
-      <kendo-card width="500px">
+  <kendo-card width="500px">
         <kendo-card-body>
               
                 <div class="k-hstack">
@@ -91,13 +25,6 @@ const { Point, Rect, Size } = geometry;
                     <h6 style="text-align: center;"> {{chartTitle}}</h6>
                 </div>
 
-              <div class="chart-legend">
-                <span  *ngFor="let x of series" class="legend-item">
-                  <span class="legend-marker" [style.background-color]="x.markerBackground">
-                  </span>
-                  <span>{{x.name}}</span>
-                </span>
-              </div>
               
               <kendo-chart [transitions]="false"
               
@@ -158,10 +85,19 @@ const { Point, Rect, Size } = geometry;
       <div >
               <p style="text-align: center; margin:5px;"> Timesteps </p>
       </div>
+      <div class="chart-legend">
+      <span  *ngFor="let x of series" class="legend-item">
+        <span class="legend-marker" [style.background-color]="x.markerBackground">
+        </span>
+        <span>{{x.name}}</span>
+      </span>
+    </div>
+
       </kendo-card-body>
     </kendo-card>
 
     <br>
+    
     `,
   encapsulation: ViewEncapsulation.None,
   styles: [
