@@ -1,5 +1,16 @@
+import { group } from '@angular/animations';
 import { Component, ElementRef, Input, ViewEncapsulation } from '@angular/core';
 import { Renderer2 } from '@angular/core';
+import { LegendItemVisualArgs } from '@progress/kendo-angular-charts';
+import {
+  Path,
+  Text,
+  Group,
+  geometry,
+  Element,
+  Rect as RectShape,
+} from '@progress/kendo-drawing';
+const { Point, Rect, Size } = geometry;
 
 @Component({
   selector: 'my-app',
@@ -73,18 +84,29 @@ import { Renderer2 } from '@angular/core';
       <kendo-card width="500px">
         <kendo-card-body>
               
-              <div class="k-hstack">
-              <h4>CAPEX</h4>
+                <div class="k-hstack">
+                    <h4>CAPEX</h4>
+                </div>
+                <div >
+                    <h6 style="text-align: center;"> {{chartTitle}}</h6>
+                </div>
+
+              <div class="chart-legend">
+                <span  *ngFor="let x of series" class="legend-item">
+                  <span class="legend-marker" [style.background-color]="x.markerBackground">
+                  </span>
+                  <span>{{x.name}}</span>
+                </span>
               </div>
+              
               <kendo-chart [transitions]="false"
-              renderAs="canvas"
+              
                 [pannable]="{ lock: 'y' }"
                 [zoomable]="{ mousewheel: { lock: 'y' }, selection: { lock: 'y' } }"
                 >
 
                 <kendo-chart-value-axis>
-                <kendo-chart-value-axis-item
-                                            [min]="0"  pane="pane" >
+                <kendo-chart-value-axis-item [min]="0"  pane="pane" >
                 </kendo-chart-value-axis-item>
             </kendo-chart-value-axis>
             <kendo-chart-panes>
@@ -92,59 +114,54 @@ import { Renderer2 } from '@angular/core';
                 </kendo-chart-pane>
             </kendo-chart-panes>
             
-            <kendo-chart-title 
-                    text="Gross domestic product growth /GDP annual %/"
-            >
-            </kendo-chart-title>
-            
-          
-            <div class="chart-legend">
-            <span>
-              <span class="legend-marker" ng-style="{background: x.color}">
-              </span>
-              <span text="legend"></span>
-            </span>
-          </div>
 
+            <!--    <kendo-chart-title 
+              text="Gross domestic product growth /GDP annual %/">
+              </kendo-chart-title>
+          -->         
             <kendo-chart-axis-defaults [majorGridLines]="{ visible : false}">
             </kendo-chart-axis-defaults>
             
             <kendo-chart-tooltip format="{0}%"></kendo-chart-tooltip>
           
             <kendo-chart-category-axis>
-        <kendo-chart-category-axis-item
-          [categories]="categories"
-          [title]="{ text: 'Months' }"
-          [maxDivisions]="5"
-        >
-        
-        <kendo-chart-category-axis-item-labels [step]="10">
-        </kendo-chart-category-axis-item-labels>
-        </kendo-chart-category-axis-item>
-      </kendo-chart-category-axis>
+              <kendo-chart-category-axis-item
+                [categories]="categories"                              
+              >
+              
+              <kendo-chart-category-axis-item-labels [step]="10">
+              </kendo-chart-category-axis-item-labels>
+              </kendo-chart-category-axis-item>
+           </kendo-chart-category-axis>
 
-      <kendo-chart-legend position="top" orientation="horizontal">
-      </kendo-chart-legend>
-      
-     
-      <kendo-chart-series>
-      <kendo-chart-series-item
-      *ngFor="let item of series"
-      type="line"
-      style="normal"
-      [data]="item.data"
-      [name]="item.name"
-      [color]="item.markerBackground"
-      [markers]="{ background: item.markerBackground }"
-      >  
-      </kendo-chart-series-item>
-    </kendo-chart-series>
-      
-          </kendo-chart>
-        </kendo-card-body>
-      </kendo-card>
+            
+          <kendo-chart-legend  [visible]="false">
+          <kendo-chart-legend-item >
+          </kendo-chart-legend-item>
+          </kendo-chart-legend>
+          
+          
+            <kendo-chart-series>
+            <kendo-chart-series-item
+            *ngFor="let item of series"
+            type="line"
+            style="normal"
+            [data]="item.data"
+            [name]="item.name"
+            [color]="item.markerBackground"
+            [markers]="{ background: item.markerBackground }"
+            >  
+            </kendo-chart-series-item>
+          </kendo-chart-series>
+            
+        </kendo-chart>
+      <div >
+              <p style="text-align: center; margin:5px;"> Timesteps </p>
+      </div>
+      </kendo-card-body>
+    </kendo-card>
 
-            <br>
+    <br>
     `,
   encapsulation: ViewEncapsulation.None,
   styles: [
@@ -215,10 +232,31 @@ import { Renderer2 } from '@angular/core';
             ::-webkit-scrollbar-thumb:hover {
               background: #686A6D; 
             }
+
+            .chart-legend {
+              text-align: center;
+            }
+            .legend-item {
+              font: 12px sans-serif;
+              margin: 12px;
+              cursor: pointer;
+            }
+      
+            .legend-item .legend-marker {
+              display: inline-block;
+              width: 16px;
+              height: 2px;
+              text-align:center;
+              margin-bottom: 3px;
+              margin-right: 3px;
+              
+            }
         `,
   ],
 })
 export class AppComponent {
+  public chartTitle = 'Gross domestic product growth /GDP annual';
+  public legend: Element;
   public series: any[] = [
     {
       name: 'Need',
@@ -405,14 +443,63 @@ export class AppComponent {
 
   constructor(public renderer: Renderer2, private elRef: ElementRef) {}
 
-  ngAfterViewInit() {
-    if (this.series) {
-      console.log(this.series[0]);
+  public labelsVisual(args: LegendItemVisualArgs): Element {
+    if (args.series.name === 'Need') {
+      // Create rectangular shape on top of which the label will be drawn
+      const rectOptions = {
+        stroke: { width: 2, color: '#fff' },
+        fill: { color: '#fff' },
+      };
+      const rectGeometry = new Rect(new Point(0, 3), new Size(60, 10));
+      const rect: RectShape = new RectShape(rectGeometry, rectOptions);
 
-      if (
-        this.series[0].data.length < 100 ||
-        this.series[1].data.length < 100
-      ) {
+      // Create the lines used to represent the custom legend item
+      const pathColor = args.options.markers.border.color;
+      const path1 = new Path({
+        stroke: {
+          color: pathColor,
+          width: 3,
+        },
+      });
+
+      const path2 = new Path({
+        stroke: {
+          color: pathColor,
+          width: 3,
+        },
+      });
+
+      // The paths are constructed by using a chain of commands
+      path1.moveTo(0, 7).lineTo(10, 7).close();
+      path2.moveTo(15, 7).lineTo(25, 7).close();
+
+      // Create the text associated with the legend item
+      const labelText = args.series.name;
+      const labelFont = args.options.labels.font;
+      const fontColor = args.options.labels.color;
+      const textOptions = { font: labelFont, fill: { color: fontColor } };
+      const text = new Text(labelText, new Point(27, 0), textOptions);
+
+      // Place all the shapes in a group
+      const group = new Group();
+
+      group.append(rect, path1, path2, text);
+
+      // set opacity if the legend item is disabled
+      if (!args.active) {
+        group.opacity(0.5);
+      }
+
+      return group;
+    }
+    // return the default visualization of the legend items
+    return args.createVisual();
+  }
+
+  ngAfterViewInit() {
+    console.log(this);
+    if (this.series) {
+      if (this.series[0].data.length < 5 || this.series[1].data.length < 75) {
         return;
       }
       //if(this.series[0].data.count)
