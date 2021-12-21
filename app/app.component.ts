@@ -15,7 +15,7 @@ const { Point, Rect, Size } = geometry;
 @Component({
   selector: 'my-app',
   template: `
-  <kendo-card width="500px">
+  <kendo-card width="400px">
         <kendo-card-body>
               
                 <div class="k-hstack">
@@ -27,9 +27,10 @@ const { Point, Rect, Size } = geometry;
 
               
               <kendo-chart [transitions]="false"
-              
+               style="height:180px"
                 [pannable]="{ lock: 'y' }"
                 [zoomable]="{ mousewheel: { lock: 'y' }, selection: { lock: 'y' } }"
+                
                 >
 
                 <kendo-chart-value-axis>
@@ -76,7 +77,7 @@ const { Point, Rect, Size } = geometry;
             [data]="item.data"
             [name]="item.name"
             [color]="item.markerBackground"
-            [markers]="{ background: item.markerBackground }"
+            [markers]="{visible:false}"
             >  
             </kendo-chart-series-item>
           </kendo-chart-series>
