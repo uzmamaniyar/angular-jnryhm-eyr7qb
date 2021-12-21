@@ -435,7 +435,7 @@ export class AppComponent {
   ngAfterViewInit() {
     console.log(this);
     if (this.series) {
-      if (this.series[0].data.length < 5 || this.series[1].data.length < 75) {
+      if (this.series[0].data.length < 75 || this.series[1].data.length < 75) {
         return;
       }
       //if(this.series[0].data.count)
