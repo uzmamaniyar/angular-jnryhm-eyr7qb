@@ -19,7 +19,7 @@ const { Point, Rect, Size } = geometry;
         <kendo-card-body>
               
                 <div class="k-hstack">
-                    <h4>CAPEX</h4>
+                    <h4>CAPEX </h4>
                 </div>
                 <div class=container>
                     <h6 class="ChartTitle"> {{chartTitle}}</h6>
@@ -109,7 +109,11 @@ const { Point, Rect, Size } = geometry;
 
       </kendo-card-body>
     </kendo-card>
+    <p>
+    (Kendo Chart with scrollbar,zooming and panning)
+    </p>
 
+    
     <br>
     <kendo-card width="400px">
         <kendo-card-body>
@@ -199,6 +203,9 @@ const { Point, Rect, Size } = geometry;
     </kendo-card>
 
     <br>
+    <p>
+    (Kendo Chart with zooming and panning)
+    </p>
     `,
   encapsulation: ViewEncapsulation.None,
   styles: [
