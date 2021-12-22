@@ -111,7 +111,94 @@ const { Point, Rect, Size } = geometry;
     </kendo-card>
 
     <br>
+    <kendo-card width="400px">
+        <kendo-card-body>
+              
+                <div class="k-hstack">
+                    <h4>CAPEX</h4>
+                </div>
+                <div class=container>
+                    <h6 class="ChartTitle"> Gross domestic product growth /GDP annual</h6>
+                
+
+              
+              <kendo-chart [transitions]="false"
+               style="height:180px"
+                [pannable]="{ lock: 'y' }"
+                [zoomable]="{ mousewheel: { lock: 'y' }, selection: { lock: 'y' } }"
+                
+                >
+
+               
+            <kendo-chart-panes>
+                <kendo-chart-pane name="pane" clip="false">
+                </kendo-chart-pane>
+            </kendo-chart-panes>
+            
+
+            <!--    <kendo-chart-title 
+              text="Gross domestic product growth /GDP annual %/">
+              </kendo-chart-title>
+          -->         
+            <kendo-chart-axis-defaults [majorGridLines]="{ visible : false}">
+            </kendo-chart-axis-defaults>
+            
+            <kendo-chart-tooltip format="{0}%"></kendo-chart-tooltip>
+          
+            <kendo-chart-category-axis>
+              <kendo-chart-category-axis-item
+                [categories]="categories"                              
+              >
+              
+              <kendo-chart-category-axis-item-labels [step]="10">
+              </kendo-chart-category-axis-item-labels>
+              </kendo-chart-category-axis-item>
+           </kendo-chart-category-axis>
+
+            
+          <kendo-chart-legend position="bottom" orientation="horizontal">
+          </kendo-chart-legend>
+         
+            <kendo-chart-series>
+            <kendo-chart-series-item
+            *ngFor="let item of series"
+            type="line"
+            style="normal"
+            [data]="item.data"
+            [name]="item.name"
+            [color]="item.markerBackground"
+            [markers]="{visible:false}"
+            >  
+            </kendo-chart-series-item>
+          </kendo-chart-series>
+          <kendo-chart-value-axis>
+        <kendo-chart-value-axis-item
+          [title]="{ text: '£m' }"
+        >
+          <!--                       ^^^^^     ^^^^^
+                     Note the binding is required,
+                     otherwise the property will be
+                     bound to a string.
+                -->
+        </kendo-chart-value-axis-item>
+      </kendo-chart-value-axis>
+         
+      
+      
+        </kendo-chart>
+        <div >
+        <!-- 
+        <p style="text-align: center; margin:5px;"> Timesteps </p>
+        -->
+        </div>
+        
+        </div>
     
+
+      </kendo-card-body>
+    </kendo-card>
+
+    <br>
     `,
   encapsulation: ViewEncapsulation.None,
   styles: [
